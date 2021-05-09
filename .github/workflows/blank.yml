@@ -29,9 +29,9 @@ jobs:
       - name: update file content
         run: |
           echo "**********************************"
-          latest=$(git ls-tree -r --name-only HEAD subscribed | while read filename; \
-            do echo "$(git log -1 --format="%ad" -- $filename) $filename"; done | \
-            sort -k2M -k3n -k4 | tail -n1 | cut  -d' ' -f7-)
+          latest=$(git ls-tree -r --name-only HEAD subscribed | \
+              while read filename; do echo "$(git log -1 --format="%at" -- $filename) $filename"; done | \
+              sort -k1n | tail -n1 | cut -d' ' -f2-)
           last="../self/subscribed/last"
           echo "Found latest file ${latest}"
           if diff -q --from-file $last $latest; then
