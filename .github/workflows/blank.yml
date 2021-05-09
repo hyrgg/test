@@ -18,7 +18,7 @@ jobs:
           path: self
       - uses: actions/checkout@v2
         with:
-          repository: https://github.com/JACKUSR2089/v2ray-subscribed
+          repository: JACKUSR2089/v2ray-subscribed
           ref: master
           path: target
       - run: |
