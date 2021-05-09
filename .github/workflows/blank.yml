@@ -14,17 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: git remote add upstream https://github.com/JACKUSR2089/v2ray-subscribed
-      - run: git fetch upstream
+        with:
+          path: self
+      - uses: actions/checkout@v2
+        with:
+          repository: https://github.com/JACKUSR2089/v2ray-subscribed
+          ref: master
+          path: target
       - run: |
           git config --global user.email "user@example.com"
           git config --global user.name "GitHub Actions Bot"
-      - run: git rebase upstream/master
       - run: |
           echo "**********************************"
           name=$(ls subscribed/ -t | head -n 1)
           latest="subscribed/${name}"
-          last="subscribed/last"
+          last="../self/subscribed/last"
           echo $latest
           echo $last
           #echo $(diff -q --from-file $last $latest; echo $?)
@@ -36,4 +40,9 @@ jobs:
               cat $latest > $last
               echo "update to last"
           fi
-      - run: git push
+        working-directory: target
+      - run: |
+            git add subscribed/last
+            git commit -m 'auto-update on '$(date)
+            git push
+        working-directory: self
