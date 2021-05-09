@@ -1,12 +1,8 @@
 name: Rebase Upstream
-# Controls when the action will run. 
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 4 * * *'
 
-  # Allows you to run this workflow manually from the Actions tab
+on:
+  schedule:
+    - cron:  '0 4 * * *'
   workflow_dispatch:
   push:
     branches: [ "main" ]
@@ -27,19 +23,11 @@ jobs:
           git config --global user.email "user@example.com"
           git config --global user.name "GitHub Actions Bot"
       - run: |
-          pwd
-          ls -al .
-          ls -al ..
-          ls -al ../self
           echo "**********************************"
           name=$(ls subscribed/ -t | head -n 1)
           latest="subscribed/${name}"
           last="../self/subscribed/last"
-          echo $latest
-          echo $last
-          #echo $(diff -q --from-file $last $latest; echo $?)
-          if diff -q --from-file $last $latest;
-              then
+          if diff -q --from-file $last $latest; then
               echo "not change"
           else
               echo "changed"
@@ -49,6 +37,6 @@ jobs:
         working-directory: target
       - run: |
             git add subscribed/last
-            git commit -m 'auto-update on '$(date)
+            git commit -m 'auto-update on '"$(date)"
             git push
         working-directory: self
