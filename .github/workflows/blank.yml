@@ -24,6 +24,7 @@ jobs:
           git config --global user.name "GitHub Actions Bot"
       - run: |
           echo "**********************************"
+          echo git ls-tree -r --name-only HEAD subscribed
           latest=$(git ls-tree -r --name-only HEAD subscribed | while read filename; \
             do echo "$(git log -1 --format="%ad" -- $filename) $filename"; done | \
             sort -k2M -k3n -k4 | tail -n1 | cut  -d' ' -f7-)
