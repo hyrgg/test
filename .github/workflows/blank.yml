@@ -27,12 +27,13 @@ jobs:
           name=$(ls subscribed/ -t | head -n 1)
           latest="subscribed/${name}"
           last="../self/subscribed/last"
+          echo "Found latest file ${latest}"
           if diff -q --from-file $last $latest; then
               echo "not change"
           else
               echo "changed"
               cat $latest > $last
-              echo "update to last"
+              echo "updated ${last} based on ${latest}"
           fi
         working-directory: target
       - run: |
