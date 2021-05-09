@@ -11,19 +11,23 @@ jobs:
   rebase:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: pull current repo
+        uses: actions/checkout@v2
         with:
           path: self
-      - uses: actions/checkout@v2
+      - name: pull source repo
+        uses: actions/checkout@v2
         with:
           repository: JACKUSR2089/v2ray-subscribed
           ref: master
           fetch-depth: '0'
           path: target
-      - run: |
+      - name: configure git
+        run: |
           git config --global user.email "user@example.com"
           git config --global user.name "GitHub Actions Bot"
-      - run: |
+      - name: update file content
+        run: |
           echo "**********************************"
           latest=$(git ls-tree -r --name-only HEAD subscribed | while read filename; \
             do echo "$(git log -1 --format="%ad" -- $filename) $filename"; done | \
@@ -38,9 +42,10 @@ jobs:
               echo "updated ${last} based on ${latest}"
           fi
         working-directory: target
-      - run: |
-            if git add subscribed/last; then
-              git commit -m 'auto-update on '"$(date)"
+      - name: push to repo
+        run: |
+            git add subscribed/last
+            if git commit -m 'auto-update on '"$(date)"; then
               git push
             fi
         working-directory: self
