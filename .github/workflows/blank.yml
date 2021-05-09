@@ -39,7 +39,8 @@ jobs:
           fi
         working-directory: target
       - run: |
-            git add subscribed/last
-            git commit -m 'auto-update on '"$(date)"
-            git push
+            if git add subscribed/last; then
+              git commit -m 'auto-update on '"$(date)"
+              git push
+            fi
         working-directory: self
