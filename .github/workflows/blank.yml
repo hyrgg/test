@@ -40,9 +40,9 @@ jobs:
           #    echo "repository not change"
           #fi
           echo "**********************************"
-          name=$(ls ../../subscribed/ -t | head -n 1)
-          latest="../../subscribed/${name}"
-          last="../../subscribed/last"
+          name=$(ls subscribed/ -t | head -n 1)
+          latest="subscribed/${name}"
+          last="subscribed/last"
           echo $latest
           echo $last
           #echo $(diff -q --from-file $last $latest; echo $?)
