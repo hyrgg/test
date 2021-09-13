@@ -29,7 +29,7 @@ jobs:
       - name: update file content
         run: |
           echo "**********************************"
-          latest=$(git ls-tree -r --name-only HEAD . | \
+          latest=$(git ls-tree -r --name-only HEAD ./subscribed | \
               while read filename; do echo "$(git log -1 --format="%at" -- $filename) $filename"; done | \
               sort -k1n | tail -n1 | cut -d' ' -f2-)
           last="../self/subscribed/last"
